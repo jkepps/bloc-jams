@@ -18,13 +18,30 @@ var albumMarconi = {
 	artist: 'Guglielmo Marconi',
 	label: 'EM',
 	year: '1909',
-	albumArtUrl: 'assets/images/album_covers/20.png',
+	albumArtUrl: 'assets/images/album_covers/02.png',
 	songs: [
 		{ name: 'Hello, Operator?', length: '1:01' },
 		{ name: 'Ring, ring, ring', length: '5:01' },
 		{ name: 'Fits in your pocket', length: '3:21' },
 		{ name: 'Can you hear me now?', length: '3:14' },
 		{ name: 'Wong phone number', length: '2:15' },
+	]
+};
+
+var albumDarius = {
+	name: 'Velour',
+	artist: 'Darius',
+	label: 'Independent',
+	year: '2012',
+	albumArtUrl: 'assets/images/album_covers/03.png',
+	songs: [
+		{ name: 'Velour', length: '3:36' },
+		{ name: 'Falling in Love', length: '4:03' },
+		{ name: 'Once in a while', length: '5:01' },
+		{ name: 'Maliblue', length: '3:14' },
+		{ name: 'Constance', length: '2:15' },
+		{ name: 'Road trip', length: '1:56' },
+		{ name: 'Dans tes yeux', length: '4:31' }
 	]
 };
 
@@ -60,4 +77,17 @@ var setCurrentAlbum = function(album) {
 
 window.onload = function() {
 	setCurrentAlbum(albumPicasso);
+	var albumCover = document.getElementsByClassName('album-cover-art')[0];
+	var albums = [albumDarius, albumMarconi, albumPicasso]
+	var i = 0;
+	
+	albumCover.addEventListener('click', function(event) {
+		setCurrentAlbum(albums[i]);
+		if (i==2) {
+			i=0;
+		}
+		else {
+			i++;
+		}
+	});
 };
