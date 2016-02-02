@@ -12,21 +12,19 @@ var createSongRow = function(songNumber, songName, songLength) {
 		var songNumber = parseInt($(this).attr('data-song-number'));
 		
 		if(currentlyPlayingSongNumber !== null) {																	// if there is a song currently playing
-			var $currentlyPlayingCell = $('.song-item-number[data-song-number="' + currentlyPlayingSongNumber + '"]');
+			var $currentlyPlayingCell = getSongNumberCell(currentlyPlayingSongNumber);
 			$currentlyPlayingCell.html(currentlyPlayingSongNumber);  								// change the currently playing song's number cell back to it's track number
 		}
 		
-		if(currentlyPlayingSongNumber !== songNumber) {    										// if the song clicked is not the one currently playing
+		if(currentlyPlayingSongNumber !== songNumber) {    										    // if the song clicked is not the one currently playing
 			$(this).html(pauseButtonTemplate);																			// change the number cell to the pause button
-			currentlyPlayingSongNumber = songNumber;														// update currently playing song variables
-			currentSongFromAlbum = currentAlbum.songs[songNumber - 1];
+			setSong(songNumber);																										// update the currently playing song variables
 			updatePlayerBarSong();
 		}
-		else if(currentlyPlayingSongNumber === songNumber) {									// if the song clicked is the one currently playing
+		else if(currentlyPlayingSongNumber === songNumber) {											// if the song clicked is the one currently playing
 			$(this).html(playButtonTemplate);																				// change the number cell back to the play button
 			$('.main-controls .play-pause').html(playerBarPlayButton);
-			currentlyPlayingSongNumber = null;																			// and update the currently playing song variables to null
-			currentSongFromAlbum = null;
+			setSong(null);																													// and update the currently playing song variables to null
 		}
 	};
 	
@@ -95,15 +93,14 @@ var nextSong = function() {
 	currentSongIndex === currentAlbum.songs.length - 1 ? currentSongIndex = 0 : currentSongIndex++;
 	
 	// Set new current song
-	currentlyPlayingSongNumber = currentSongIndex + 1;
-	currentSongFromAlbum = currentAlbum.songs[currentSongIndex];
+	setSong(currentSongIndex+1);
 	
 	// update player bar
 	updatePlayerBarSong();
 	
 	var lastSongNumber = getLastSongNumber(currentSongIndex);
-	var $nextSongNumberCell = $('.song-item-number[data-song-number="' + currentlyPlayingSongNumber + '"]');
-	var $lastSongNumberCell = $('.song-item-number[data-song-number="' + lastSongNumber + '"]');
+	var $nextSongNumberCell = getSongNumberCell(currentlyPlayingSongNumber);
+	var $lastSongNumberCell = getSongNumberCell(lastSongNumber);
 	
 	$nextSongNumberCell.html(pauseButtonTemplate);
 	$lastSongNumberCell.html(lastSongNumber);
@@ -119,19 +116,27 @@ var previousSong = function() {
 	currentSongIndex === 0 ? currentSongIndex = currentAlbum.songs.length - 1 : currentSongIndex--;
 	
 	// Set new current song
-	currentlyPlayingSongNumber = currentSongIndex + 1;
-	currentSongFromAlbum = currentAlbum.songs[currentSongIndex];
+	setSong(currentSongIndex+1);
 	
 	// update player bar
 	updatePlayerBarSong();
 	
 	var lastSongNumber = getLastSongNumber(currentSongIndex);
-	var $previousSongNumberCell = $('.song-item-number[data-song-number="' + currentlyPlayingSongNumber + '"]');
-	var $lastSongNumberCell = $('.song-item-number[data-song-number="' + lastSongNumber + '"]');
+	var $previousSongNumberCell = getSongNumberCell(currentlyPlayingSongNumber);
+	var $lastSongNumberCell = getSongNumberCell(lastSongNumber);
 	
 	$previousSongNumberCell.html(pauseButtonTemplate);
 	$lastSongNumberCell.html(lastSongNumber);
 };
+
+var setSong = function(songNumber) {
+	currentlyPlayingSongNumber = songNumber;
+	currentSongFromAlbum = currentAlbum.songs[songNumber - 1];
+}
+
+var getSongNumberCell = function(number) {
+	return $('.song-item-number[data-song-number="' + number + '"]');
+}
 
 var playButtonTemplate = '<a class="album-song-button"><span class="ion-play"></span></a>';
 var pauseButtonTemplate = '<a class="album-song-button"><span class="ion-pause"></span></a>';
