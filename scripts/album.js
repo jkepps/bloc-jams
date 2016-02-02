@@ -109,16 +109,16 @@ var changeSong = function() {
 	
 	$newSongNumberCell.html(pauseButtonTemplate);
 	$oldSongNumberCell.html(oldSongNumber);
-}
+};
 
 var setSong = function(songNumber) {
 	currentlyPlayingSongNumber = songNumber;
 	currentSongFromAlbum = currentAlbum.songs[songNumber - 1];
-}
+};
 
 var getSongNumberCell = function(number) {
 	return $('.song-item-number[data-song-number="' + number + '"]');
-}
+};
 
 var playButtonTemplate = '<a class="album-song-button"><span class="ion-play"></span></a>';
 var pauseButtonTemplate = '<a class="album-song-button"><span class="ion-pause"></span></a>';
